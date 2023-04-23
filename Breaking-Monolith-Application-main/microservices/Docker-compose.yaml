@@ -1,0 +1,113 @@
+version: "3"
+services:
+  app:
+    container_name: Landing
+    build: 
+      context: ./landing
+    ports:
+      - "5050:5050"
+    depends_on:
+      - addition
+      - subtraction
+      - multiplication
+      - division
+      - gcd
+      - lcm
+      - modulus
+      - greater
+    environment:
+      - ADDITION_SERVICE_URL=http://add-service:5051
+      - SUBTRACTION_SERVICE_URL=http://minus-service:5052
+      - MULTIPLICATION_SERVICE_URL=http://multiply-service:5053
+      - DIVISION_SERVICE_URL=http://division-service:5054
+      - GCD_SERVICE_URL=http://gcd-service:5055
+      - LCM_SERVICE_URL=http://lcm-service:5056
+      - MODULUS_SERVICE_URL=http://modulus-service:5057
+      - GREATER_SERVICE_URL=http://greater-service:5058
+    networks:
+      - my-network
+    # command: python app.py
+  addition:
+    container_name: add-service
+    build:
+      context: ./add-service
+      dockerfile: Dockerfile-addition
+    # expose:
+    #   - "5051"
+    networks:
+      - my-network
+
+    command: python addition.py
+  subtraction:
+    container_name: minus-service
+    build:
+      context: ./minus-service
+      dockerfile: Dockerfile-subtraction
+    # expose:
+    #   - "5052"
+    networks:
+      - my-network
+    # command: python subtraction.py
+  multiplication:
+    container_name: multiply-service
+    build:
+      context: ./multiply-service
+      dockerfile: Dockerfile-multiplication
+    # expose:
+    #   - "5053"
+    networks:
+      - my-network
+    # command: python multiplication.py
+  division:
+    container_name: division-service
+    build:
+      context: ./division-service
+      dockerfile: Dockerfile-division
+    # expose:
+    #   - "5054"
+    networks:
+      - my-network
+    # command: python division.py
+  gcd:
+    container_name: gcd-service
+    build:
+      context: ./gcd-service
+      dockerfile: Dockerfile-gcd
+    # expose:
+    #   - "5055"
+    networks:
+      - my-network
+    # command: python gcd.py
+  lcm:
+    container_name: lcm-service
+    build:
+      context: ./lcm-service
+      dockerfile: Dockerfile-lcm
+    # expose:
+    #   - "5056"
+    networks:
+      - my-network
+    # command: python lcm.py
+  modulus:
+    container_name: modulus-service
+    build:
+      context: ./modulus-service
+      dockerfile: Dockerfile-modulus
+    # expose:
+    #   - "5057"
+    networks:
+      - my-network
+    # command: python modulus.py
+  greater:
+    container_name: greater-service
+    build:
+      context: ./greaterThan-service
+      dockerfile: Dockerfile-greater
+    # expose:
+    #   - "5058"
+    networks:
+      - my-network
+    command: python greater.py
+networks:
+  my-network:
+    driver: bridge
